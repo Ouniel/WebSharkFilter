@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireshark过滤命令生成器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-filter"></i> Wireshark过滤命令生成器</h1>
+            <p class="subtitle">快速生成专业的Wireshark过滤表达式</p>
+        </header>
+        
+        <main>
+            <div class="filter-tabs">
+                <button class="tab-button active" data-tab="basic">基础过滤</button>
+                <button class="tab-button" data-tab="advanced">高级过滤</button>
+                <button class="tab-button" data-tab="custom">自定义过滤</button>
+            </div>
+
+            <div class="tab-content active" id="basic">
+                <div class="filter-section">
+                    <h2><i class="fas fa-network-wired"></i> 协议过滤</h2>
+                    <div class="options protocol-grid">
+                        <label><input type="checkbox" name="protocol" value="tcp"> TCP</label>
+                        <label><input type="checkbox" name="protocol" value="udp"> UDP</label>
+                        <label><input type="checkbox" name="protocol" value="http"> HTTP</label>
+                        <label><input type="checkbox" name="protocol" value="https"> HTTPS</label>
+                        <label><input type="checkbox" name="protocol" value="dns"> DNS</label>
+                        <label><input type="checkbox" name="protocol" value="icmp"> ICMP</label>
+                        <label><input type="checkbox" name="protocol" value="arp"> ARP</label>
+                        <label><input type="checkbox" name="protocol" value="ftp"> FTP</label>
+                        <label><input type="checkbox" name="protocol" value="ssh"> SSH</label>
+                        <label><input type="checkbox" name="protocol" value="telnet"> Telnet</label>
+                        <label><input type="checkbox" name="protocol" value="smtp"> SMTP</label>
+                        <label><input type="checkbox" name="protocol" value="pop"> POP</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2><i class="fas fa-globe"></i> IP地址过滤</h2>
+                    <div class="options">
+                        <div class="input-group">
+                            <label>源IP：</label>
+                            <input type="text" id="sourceIP" placeholder="例如：192.168.1.1">
+                            <select id="sourceIPMask">
+                                <option value="">/32 (精确匹配)</option>
+                                <option value="/24">/24 (子网)</option>
+                                <option value="/16">/16 (子网)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>目标IP：</label>
+                            <input type="text" id="destIP" placeholder="例如：192.168.1.2">
+                            <select id="destIPMask">
+                                <option value="">/32 (精确匹配)</option>
+                                <option value="/24">/24 (子网)</option>
+                                <option value="/16">/16 (子网)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2><i class="fas fa-plug"></i> 端口过滤</h2>
+                    <div class="options">
+                        <div class="input-group">
+                            <label>源端口：</label>
+                            <input type="number" id="sourcePort" placeholder="例如：80">
+                            <select id="commonSourcePorts">
+                                <option value="">常用端口</option>
+                                <option value="80">HTTP (80)</option>
+                                <option value="443">HTTPS (443)</option>
+                                <option value="22">SSH (22)</option>
+                                <option value="21">FTP (21)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>目标端口：</label>
+                            <input type="number" id="destPort" placeholder="例如：443">
+                            <select id="commonDestPorts">
+                                <option value="">常用端口</option>
+                                <option value="80">HTTP (80)</option>
+                                <option value="443">HTTPS (443)</option>
+                                <option value="22">SSH (22)</option>
+                                <option value="21">FTP (21)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2><i class="fas fa-calendar-alt"></i> 日期范围过滤</h2>
+                    <div class="options">
+                        <label>开始日期: <input type="date" id="start-date"></label>
+                        <label>结束日期: <input type="date" id="end-date"></label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2><i class="fas fa-search"></i> 关键字搜索</h2>
+                    <div class="options">
+                        <input type="text" id="keyword-search" placeholder="输入关键字进行过滤">
+                    </div>
+                    <div class="flag-encodings">
+                        <p>Flag Encodings:</p>
+                        <ul>
+                            <li>UTF-8: flag</li>
+                            <li>Unicode: \u0066\u006c\u0061\u0067</li>
+                            <li>Base64: ZmxhZw==</li>
+                            <li>Hex: 66 6c 61 67</li>
+                            <li>Binary: 01100110 01101100 01100001 01100111</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="advanced">
+                <div class="filter-section">
+                    <h2><i class="fas fa-ruler-horizontal"></i> 数据包属性</h2>
+                    <div class="options">
+                        <div class="input-group">
+                            <label>最小长度：</label>
+                            <input type="number" id="minLength" placeholder="例如：64">
+                        </div>
+                        <div class="input-group">
+                            <label>最大长度：</label>
+                            <input type="number" id="maxLength" placeholder="例如：1500">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2><i class="fas fa-flag"></i> TCP标志</h2>
+                    <div class="options flag-grid">
+                        <label><input type="checkbox" name="tcpflag" value="syn"> SYN</label>
+                        <label><input type="checkbox" name="tcpflag" value="ack"> ACK</label>
+                        <label><input type="checkbox" name="tcpflag" value="fin"> FIN</label>
+                        <label><input type="checkbox" name="tcpflag" value="rst"> RST</label>
+                        <label><input type="checkbox" name="tcpflag" value="psh"> PSH</label>
+                        <label><input type="checkbox" name="tcpflag" value="urg"> URG</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h2><i class="fas fa-clock"></i> 时间过滤</h2>
+                    <div class="options">
+                        <div class="input-group">
+                            <label>相对时间（秒）：</label>
+                            <input type="number" id="relativeTime" placeholder="例如：1.5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="custom">
+                <div class="filter-section">
+                    <h2><i class="fas fa-code"></i> 自定义过滤器</h2>
+                    <div class="options">
+                        <div class="input-group full-width">
+                            <textarea id="customFilter" placeholder="输入自定义的Wireshark过滤表达式"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-filters">
+                <h2>常用Wireshark过滤器</h2>
+                <ul>
+                    <li><button onclick="applyFilter('tcp.port == 80')">HTTP流量 (tcp.port == 80)</button></li>
+                    <li><button onclick="applyFilter('ip.addr == 192.168.1.1')">特定IP地址 (ip.addr == 192.168.1.1)</button></li>
+                    <li><button onclick="applyFilter('dns')">DNS流量 (dns)</button></li>
+                    <li><button onclick="applyFilter('http.request')">HTTP请求 (http.request)</button></li>
+                    <li><button onclick="applyFilter('tcp.flags.syn == 1')">TCP SYN包 (tcp.flags.syn == 1)</button></li>
+                </ul>
+            </div>
+
+            <div class="result-section">
+                <h2><i class="fas fa-terminal"></i> 生成的命令</h2>
+                <div class="command-output">
+                    <textarea id="filterCommand" readonly></textarea>
+                    <div class="button-group">
+                        <button id="copyButton" class="primary-button">
+                            <i class="fas fa-copy"></i> 复制命令
+                        </button>
+                        <button id="clearButton" class="secondary-button">
+                            <i class="fas fa-trash"></i> 清除
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>提示：点击选项卡切换不同的过滤选项。所有选项都会实时生成过滤命令。</p>
+        </footer>
+    </div>
+    <script src="static/js/main.js"></script>
+</body>
+</html>
