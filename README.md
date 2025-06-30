@@ -12,6 +12,7 @@
 **Wireshark过滤命令生成器**是一个强大的Web应用，通过直观的图形界面简化了Wireshark过滤表达式的创建过程。特别强化了扫描器检测能力，支持Nmap、fscan、Masscan等常见扫描器的识别，帮助安全团队快速发现网络扫描活动。
 
 
+
 ![Wireshark过滤命令生成器界面](https://via.placeholder.com/800x500/37474f/ffffff?text=Wireshark+扫描器检测增强版)
 
 ## ✨ 核心功能
@@ -39,16 +40,15 @@
 
 ## 🚀 快速使用
 
-### 在线访问
-直接访问：[https://yourdomain.com/wireshark-scanner-detection](https://yourdomain.com/wireshark-scanner-detection)
+
 
 ### 本地运行
 ```bash
 # 克隆仓库
-git clone https://github.com/yourrepo/wireshark-scanner-detection.git
+git clone https://github.com/Ouniel/WebSharkFilter.git
 
 # 进入项目目录
-cd wireshark-scanner-detection
+cd WebSharkFilter
 
 # 安装Live Server（如果尚未安装）
 npm install -g live-server
@@ -88,24 +88,24 @@ live-server
 ```mermaid
 graph LR
     A[扫描器检测选项卡] --> B[勾选fscan扫描器]
-    C[扫描模式] --> D[选择"所有模式"]
+    C[扫描模式] --> D[选择所有模式]
     E[目标范围] --> F[输入192.168.1.0/24]
-    G[生成命令] --> H[(icmp or arp) and ip.dst==192.168.1.0/24 or (tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.dstport in {135,139,445,22,21,1433,3306,3389})]
+    G[生成命令] --> H[包含ICMP/ARP探测和多端口扫描的表达式]
 ```
 
 ### 场景2：检测Hydra暴力破解
 ```mermaid
 graph LR
     A[场景示例选项卡] --> B[点击Hydra暴力破解卡片]
-    C[自动生成命令] --> D[((tcp.dstport == 22 and ssh) or (tcp.dstport == 21 and ftp)) and frame contains "password"]
+    C[自动生成命令] --> D[检测SSH/FTP的密码尝试流量]
 ```
 
 ### 场景3：检测Masscan高速扫描
 ```mermaid
 graph LR
     A[扫描器检测选项卡] --> B[勾选Masscan扫描器]
-    C[行为特征] --> D[选择"高速端口扫描"]
-    E[生成命令] --> F[tcp.flags.syn==1 and tcp.flags.ack==0 and frame.time_delta < 0.001]
+    C[行为特征] --> D[选择高速端口扫描]
+    E[生成命令] --> F[识别极短时间内大量SYN包]
 ```
 
 ## 💡 扫描器特征识别
