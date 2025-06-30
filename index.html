@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wireshark过滤命令生成器</title>
+    <title>Wireshark扫描器检测增强版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -199,7 +199,8 @@
 
         .protocol-grid,
         .flag-grid,
-        .nmap-grid {
+        .nmap-grid,
+        .scanner-grid {
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         }
 
@@ -468,6 +469,15 @@
             box-shadow: 0 10px 25px rgba(243, 156, 18, 0.2);
         }
 
+        .scanner-card {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(142, 68, 173, 0.1));
+            border-left: 4px solid #9b59b6;
+        }
+
+        .scanner-card:hover {
+            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.2);
+        }
+
         .scenario-card h4 {
             color: #2c3e50;
             margin-bottom: 10px;
@@ -642,6 +652,11 @@
             border-left: 4px solid #3498db;
         }
 
+        .fscan-tip {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
+            border-left: 4px solid #e74c3c;
+        }
+
         .nmap-tip h4 {
             color: #2c3e50;
             margin-bottom: 10px;
@@ -659,6 +674,22 @@
             margin-bottom: 8px;
             font-size: 14px;
             line-height: 1.5;
+        }
+
+        .scanner-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .nmap-indicator {
+            background-color: #3498db;
+        }
+
+        .fscan-indicator {
+            background-color: #e74c3c;
         }
 
         @media (max-width: 1100px) {
@@ -683,6 +714,7 @@
             .protocol-grid,
             .flag-grid,
             .nmap-grid,
+            .scanner-grid,
             .file-type-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -736,8 +768,8 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-filter"></i> Wireshark过滤命令生成器</h1>
-            <p class="subtitle">快速生成专业的Wireshark过滤表达式 - 支持文件提取、流量分析及Nmap扫描检测</p>
+            <h1><i class="fas fa-filter"></i> Wireshark扫描器检测增强版</h1>
+            <p class="subtitle">快速生成专业的Wireshark过滤表达式 - 支持Nmap、fscan等扫描器检测</p>
         </header>
 
         <main>
@@ -745,7 +777,7 @@
                 <div class="filter-tabs">
                     <button class="tab-button active" data-tab="basic"><i class="fas fa-sliders-h"></i> 基础过滤</button>
                     <button class="tab-button" data-tab="advanced"><i class="fas fa-cogs"></i> 高级过滤</button>
-                    <button class="tab-button" data-tab="files"><i class="fas fa-file-archive"></i> 文件提取</button>
+                    <button class="tab-button" data-tab="scanners"><i class="fas fa-radar"></i> 扫描器检测</button>
                     <button class="tab-button" data-tab="scenarios"><i class="fas fa-lightbulb"></i> 常见场景</button>
                     <button class="tab-button" data-tab="custom"><i class="fas fa-code"></i> 自定义过滤</button>
                 </div>
@@ -914,50 +946,65 @@
                     </div>
                 </div>
 
-                <div class="tab-content" id="files">
+                <!-- 新增的扫描器检测标签页 -->
+                <div class="tab-content" id="scanners">
                     <div class="filter-section">
-                        <h2><i class="fas fa-file-archive"></i> 文件类型过滤</h2>
-                        <div class="options file-type-grid">
-                            <label><input type="checkbox" name="filetype" value="zip"> ZIP压缩包</label>
-                            <label><input type="checkbox" name="filetype" value="rar"> RAR压缩包</label>
-                            <label><input type="checkbox" name="filetype" value="7z"> 7Z压缩包</label>
-                            <label><input type="checkbox" name="filetype" value="gz"> GZIP压缩包</label>
-                            <label><input type="checkbox" name="filetype" value="tar"> TAR压缩包</label>
-                            <label><input type="checkbox" name="filetype" value="pdf"> PDF文档</label>
-                            <label><input type="checkbox" name="filetype" value="doc"> Word文档</label>
-                            <label><input type="checkbox" name="filetype" value="exe"> 可执行文件</label>
-                            <label><input type="checkbox" name="filetype" value="jpg"> JPEG图片</label>
-                            <label><input type="checkbox" name="filetype" value="png"> PNG图片</label>
-                            <label><input type="checkbox" name="filetype" value="mp3"> MP3音频</label>
-                            <label><input type="checkbox" name="filetype" value="mp4"> MP4视频</label>
+                        <h2><i class="fas fa-shield-alt"></i> 扫描器检测</h2>
+                        <div class="options scanner-grid">
+                            <label><input type="checkbox" name="scanner" value="fscan"> fscan扫描器</label>
+                            <label><input type="checkbox" name="scanner" value="masscan"> Masscan扫描器</label>
+                            <label><input type="checkbox" name="scanner" value="zmap"> Zmap扫描器</label>
+                            <label><input type="checkbox" name="scanner" value="hydra"> Hydra暴力破解</label>
+                            <label><input type="checkbox" name="scanner" value="metasploit"> Metasploit攻击</label>
+                            <label><input type="checkbox" name="scanner" value="sqlmap"> SQL注入扫描</label>
                         </div>
                     </div>
 
                     <div class="filter-section">
-                        <h2><i class="fas fa-download"></i> 文件传输协议</h2>
+                        <h2><i class="fas fa-cogs"></i> fscan扫描检测</h2>
                         <div class="options">
-                            <label><input type="checkbox" name="fileprotocol" value="http-file"> HTTP文件下载</label>
-                            <label><input type="checkbox" name="fileprotocol" value="ftp-data"> FTP数据传输</label>
-                            <label><input type="checkbox" name="fileprotocol" value="smb"> SMB文件共享</label>
-                            <label><input type="checkbox" name="fileprotocol" value="email-attachment"> 邮件附件</label>
-                            <label><input type="checkbox" name="fileprotocol" value="tcp-stream"> TCP流重组</label>
+                            <div class="input-group">
+                                <label>扫描模式：</label>
+                                <select id="fscanMode">
+                                    <option value="all">所有模式</option>
+                                    <option value="host">主机发现</option>
+                                    <option value="port">端口扫描</option>
+                                    <option value="exploit">漏洞利用</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>目标IP范围：</label>
+                                <input type="text" id="fscanIPRange" placeholder="例如：192.168.1.0/24">
+                            </div>
+                            <div class="input-group">
+                                <label>常见漏洞检测：</label>
+                                <select id="fscanVuln">
+                                    <option value="all">所有漏洞</option>
+                                    <option value="ms17">永恒之蓝(MS17-010)</option>
+                                    <option value="smbghost">SMBGhost(CVE-2020-0796)</option>
+                                    <option value="weblogic">WebLogic漏洞</option>
+                                    <option value="redis">Redis未授权访问</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <div class="filter-section">
-                        <h2><i class="fas fa-cogs"></i> 自定义文件特征</h2>
+                        <h2><i class="fas fa-microchip"></i> 扫描器特征</h2>
                         <div class="options">
                             <div class="input-group">
-                                <label>文件头特征（十六进制）：</label>
-                                <input type="text" id="fileHeader" placeholder="例如：504B0304 (ZIP文件头)">
+                                <label>扫描器Payload特征：</label>
+                                <input type="text" id="scannerPayload" placeholder="例如：fscan、sqlmap">
                             </div>
                             <div class="input-group">
-                                <label>文件尾特征（十六进制）：</label>
-                                <input type="text" id="fileFooter" placeholder="例如：504B0506 (ZIP文件尾)">
-                            </div>
-                            <div class="input-group">
-                                <label>MIME类型：</label>
-                                <input type="text" id="mimeType" placeholder="例如：application/zip">
+                                <label>异常行为检测：</label>
+                                <select id="scannerBehavior">
+                                    <option value="">选择异常行为</option>
+                                    <option value="high-rate">高速端口扫描</option>
+                                    <option value="multi-protocol">多协议扫描</option>
+                                    <option value="vuln-probe">漏洞探测尝试</option>
+                                    <option value="bruteforce">暴力破解尝试</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -965,60 +1012,53 @@
 
                 <div class="tab-content" id="scenarios">
                     <div class="scenario-examples">
-                        <h2><i class="fas fa-lightbulb"></i> 常见应用场景</h2>
+                        <h2><i class="fas fa-lightbulb"></i> 扫描检测场景</h2>
                         <div class="scenario-grid">
+                            <div class="scenario-card scanner-card" onclick="applyScenario('fscan-scan')">
+                                <h4><i class="fas fa-radar"></i> fscan扫描检测</h4>
+                                <p>检测fscan扫描器的典型流量模式</p>
+                                <code>(icmp or arp) and (ip.dst==192.168.1.0/24) or (tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.dstport in {135,139,445,22,21,1433,3306,3389})</code>
+                            </div>
+
                             <div class="scenario-card" onclick="applyScenario('nmap-scan')">
                                 <h4><i class="fas fa-radar"></i> Nmap扫描检测</h4>
                                 <p>检测存在Nmap扫描特征的IP地址</p>
                                 <code>tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size<=1024 or tcp.flags==0x0 or tcp.flags.fin==1 and tcp.flags.ack==0 or tcp.flags.fin==1 and tcp.flags.urg==1 and tcp.flags.psh==1</code>
                             </div>
 
-                            <div class="scenario-card" onclick="applyScenario('extract-archives')">
-                                <h4><i class="fas fa-file-archive"></i> 压缩包提取</h4>
-                                <p>提取流量中的ZIP、RAR、7Z等压缩包文件</p>
-                                <code>(frame contains "504B0304" or frame contains "526172211A0700" or frame contains "377ABCAF271C") and (http or ftp-data)</code>
+                            <div class="scenario-card scanner-card" onclick="applyScenario('hydra-bruteforce')">
+                                <h4><i class="fas fa-unlock-alt"></i> Hydra暴力破解检测</h4>
+                                <p>检测SSH/FTP暴力破解行为</p>
+                                <code>((tcp.dstport == 22 and ssh) or (tcp.dstport == 21 and ftp)) and frame.len > 100 and (frame contains "login" or frame contains "password") and tcp.analysis.retransmission==0</code>
                             </div>
 
-                            <div class="scenario-card" onclick="applyScenario('malware')">
-                                <h4><i class="fas fa-bug"></i> 恶意软件检测</h4>
-                                <p>检测可疑的可执行文件下载和C&C通信</p>
-                                <code>http and (frame contains "MZ" or frame contains "TVqQAA")</code>
+                            <div class="scenario-card scanner-card" onclick="applyScenario('masscan-detection')">
+                                <h4><i class="fas fa-bolt"></i> Masscan高速扫描</h4>
+                                <p>检测高速端口扫描行为</p>
+                                <code>tcp.flags.syn==1 and tcp.flags.ack==0 and (ip.dst==192.168.1.0/24) and frame.time_delta < 0.001</code>
                             </div>
 
-                            <div class="scenario-card" onclick="applyScenario('data-exfiltration')">
-                                <h4><i class="fas fa-database"></i> 数据外泄检测</h4>
-                                <p>监控大容量文件传输和压缩包</p>
-                                <code>tcp.len > 1000 and (frame contains "PK" or frame contains "Rar!")</code>
+                            <div class="scenario-card scanner-card" onclick="applyScenario('metasploit-attack')">
+                                <h4><i class="fas fa-bug"></i> Metasploit攻击检测</h4>
+                                <p>检测Metasploit框架攻击流量</p>
+                                <code>tcp.payload matches "\\x90\\x90\\x90\\x90" or tcp.payload matches "\\x68\\x65\\x6c\\x6c\\x6f" or http contains "meterpreter"</code>
                             </div>
 
-                            <div class="scenario-card" onclick="applyScenario('dns-tunneling')">
-                                <h4><i class="fas fa-stream"></i> DNS隧道检测</h4>
-                                <p>检测异常的DNS查询和数据传输</p>
-                                <code>dns and (dns.qry.name.len > 50 or dns.resp.len > 512)</code>
-                            </div>
-
-                            <div class="scenario-card" onclick="applyScenario('web-shells')">
-                                <h4><i class="fas fa-terminal"></i> Web Shell检测</h4>
-                                <p>检测可疑的Web脚本上传</p>
-                                <code>http.request.method == "POST" and (http contains "php" or http contains "jsp")</code>
+                            <div class="scenario-card scanner-card" onclick="applyScenario('sqlmap-injection')">
+                                <h4><i class="fas fa-database"></i> SQL注入扫描检测</h4>
+                                <p>检测SQL注入扫描行为</p>
+                                <code>http.request.uri contains "1=1" or http.request.uri contains "sleep(" or http.request.uri contains "union select" or http.request.uri contains "select%20*%20from"</code>
                             </div>
                         </div>
                     </div>
 
                     <div class="common-filters">
-                        <h2><i class="fas fa-star"></i> 常用过滤器快捷方式</h2>
+                        <h2><i class="fas fa-star"></i> 扫描器检测快捷方式</h2>
                         <ul>
-                            <li><button onclick="applyFilter('tcp.port == 80 or tcp.port == 443')"><i
-                                        class="fas fa-globe"></i> Web流量 (HTTP/HTTPS)</button></li>
-                            <li><button onclick="applyFilter('ip.addr == 192.168.1.1')"><i class="fas fa-laptop"></i>
-                                    特定IP地址通信</button></li>
-                            <li><button onclick="applyFilter('dns')"><i class="fas fa-server"></i> DNS查询流量</button></li>
-                            <li><button onclick="applyFilter('tcp.flags.syn == 1 and tcp.flags.ack == 0')"><i
-                                        class="fas fa-handshake"></i> TCP连接建立</button></li>
-                            <li><button onclick="applyFilter('frame contains \" flag\"')"><i class="fas fa-search"></i>
-                                    包含"flag"关键字</button></li>
-                            <li><button onclick="applyFilter('http.request.method == \" POST\"')"><i
-                                        class="fas fa-paper-plane"></i> HTTP POST请求</button></li>
+                            <li><button onclick="applyFilter('(icmp or arp) and (ip.dst==192.168.1.0/24) or (tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.dstport in {135,139,445,22,21,1433,3306,3389})')"><i class="fas fa-radar"></i> fscan扫描检测</button></li>
+                            <li><button onclick="applyFilter('tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size<=1024')"><i class="fas fa-radar"></i> Nmap SYN扫描</button></li>
+                            <li><button onclick="applyFilter('((tcp.dstport == 22 and ssh) or (tcp.dstport == 21 and ftp)) and frame contains \"password\"')"><i class="fas fa-unlock-alt"></i> 暴力破解检测</button></li>
+                            <li><button onclick="applyFilter('tcp.flags.syn==1 and tcp.flags.ack==0 and frame.time_delta < 0.001')"><i class="fas fa-bolt"></i> 高速扫描检测</button></li>
                         </ul>
                     </div>
                 </div>
@@ -1070,25 +1110,21 @@
                 </div>
 
                 <div class="file-extraction-tips">
-                    <h2><i class="fas fa-file-download"></i> 网络安全分析技巧</h2>
+                    <h2><i class="fas fa-shield-alt"></i> 扫描器检测技巧</h2>
                     <div class="tips-content">
-                        <h3><i class="fas fa-radar"></i> Nmap扫描检测技巧</h3>
+                        <h3><i class="fas fa-radar"></i> fscan扫描特征分析</h3>
                         <ul>
-                            <li><strong>SYN扫描</strong>：仅发送SYN包 (tcp.flags.syn==1 and tcp.flags.ack==0)</li>
-                            <li><strong>NULL扫描</strong>：所有标志位为0 (tcp.flags==0x0)</li>
-                            <li><strong>FIN扫描</strong>：仅FIN标志位为1 (tcp.flags.fin==1 and tcp.flags.ack==0)</li>
-                            <li><strong>XMAS扫描</strong>：FIN, URG, PUSH标志位为1 (tcp.flags.fin==1 and tcp.flags.urg==1 and
-                                tcp.flags.psh==1)</li>
-                            <li><strong>ACK扫描</strong>：仅ACK标志位为1 (tcp.flags.ack==1 and tcp.flags.syn==0)</li>
+                            <li><strong>主机发现</strong>：同时使用ICMP和ARP探测 (icmp or arp)</li>
+                            <li><strong>端口扫描</strong>：快速扫描多个常见端口 (tcp.dstport in {135,139,445,22,21,1433,3306,3389})</li>
+                            <li><strong>漏洞利用</strong>：包含特定Payload特征 (frame contains "\\x90\\x90" or frame contains "\\x68\\x65\\x6c\\x6c\\x6f")</li>
+                            <li><strong>多协议扫描</strong>：同时扫描SMB、SSH、FTP等多种协议</li>
                         </ul>
 
                         <div class="tip-code">
-                            # 检测所有类型的Nmap扫描<br>
-                            (tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size<=1024) or <br>
-                                (tcp.flags==0x0) or <br>
-                                (tcp.flags.fin==1 and tcp.flags.ack==0) or <br>
-                                (tcp.flags.fin==1 and tcp.flags.urg==1 and tcp.flags.psh==1) or <br>
-                                (tcp.flags.ack==1 and tcp.flags.syn==0)
+                            # 典型fscan扫描检测<br>
+                            (icmp or arp) and (ip.dst==192.168.1.0/24) or <br>
+                            (tcp.flags.syn==1 and tcp.flags.ack==0 and <br>
+                            tcp.dstport in {135,139,445,22,21,1433,3306,3389})
                         </div>
 
                         <div class="nmap-tip">
@@ -1100,14 +1136,24 @@
                                 <li>结合IP地理定位信息判断扫描源是否可疑</li>
                             </ul>
                         </div>
+
+                        <div class="nmap-tip fscan-tip">
+                            <h4><i class="fas fa-lightbulb"></i> fscan扫描分析提示</h4>
+                            <ul>
+                                <li>fscan通常同时扫描内网多个IP段</li>
+                                <li>会尝试多种漏洞利用Payload</li>
+                                <li>扫描过程中会尝试弱口令爆破</li>
+                                <li>扫描结束后通常会留下后门或木马</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
 
         <footer>
-            <p>💡 提示：选择不同选项卡来访问各种过滤功能。所有选项都会实时生成相应的Wireshark过滤表达式。</p>
-            <p>增强版增加了Nmap扫描检测和文件提取功能</p>
+            <p>💡 提示：选择"扫描器检测"选项卡来检测fscan等常见扫描工具。所有选项都会实时生成相应的Wireshark过滤表达式。</p>
+            <p>增强版增加了fscan、Masscan、Hydra等扫描器检测功能</p>
             <div class="footer-links">
                 <a href="#"><i class="fas fa-book"></i> Wireshark文档</a>
                 <a href="#"><i class="fas fa-download"></i> 下载Wireshark</a>
@@ -1147,6 +1193,19 @@
             'png': 'image/png',
             'mp3': 'audio/mpeg',
             'mp4': 'video/mp4'
+        };
+
+        // 扫描器特征映射
+        const scannerSignatures = {
+            'fscan': {
+                'host': '(icmp or arp)',
+                'port': 'tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.dstport in {135,139,445,22,21,1433,3306,3389}',
+                'exploit': 'tcp.payload matches "\\\\x90\\\\x90\\\\x90\\\\x90" or tcp.payload matches "\\\\x68\\\\x65\\\\x6c\\\\x6c\\\\x6f"'
+            },
+            'masscan': 'tcp.flags.syn==1 and tcp.flags.ack==0 and frame.time_delta < 0.001',
+            'hydra': '((tcp.dstport == 22 and ssh) or (tcp.dstport == 21 and ftp)) and frame contains "password"',
+            'metasploit': 'tcp.payload matches "\\\\x90\\\\x90\\\\x90\\\\x90" or http contains "meterpreter"',
+            'sqlmap': 'http.request.uri contains "1=1" or http.request.uri contains "sleep(" or http.request.uri contains "union select"'
         };
 
         // 历史记录
@@ -1351,72 +1410,84 @@
                 filters.push(nmapFilter);
             }
 
-            // 文件类型过滤 - 增强版
-            const fileTypes = Array.from(document.querySelectorAll('input[name="filetype"]:checked'))
-                .map(cb => {
-                    const type = cb.value;
-                    const magic = fileMagicNumbers[type];
-                    const mime = fileMimeTypes[type];
-                    let expressions = [];
-
-                    if (magic) {
-                        expressions.push(`frame contains ${magic}`);
-                    }
-
-                    if (mime) {
-                        expressions.push(`http.content_type contains "${mime}"`);
-                    }
-
-                    return expressions.length > 0 ? `(${expressions.join(' or ')})` : '';
-                })
-                .filter(expr => expr !== '');
-
-            if (fileTypes.length > 0) {
-                filters.push(`(${fileTypes.join(' or ')})`);
-            }
-
-            // 文件传输协议过滤
-            const fileProtocols = Array.from(document.querySelectorAll('input[name="fileprotocol"]:checked'))
-                .map(cb => {
-                    switch (cb.value) {
-                        case 'http-file':
-                            return 'http.request.method == "GET" and http.content_length > 1024';
-                        case 'ftp-data':
-                            return 'ftp-data';
-                        case 'smb':
-                            return 'smb or smb2';
-                        case 'email-attachment':
-                            return 'smtp and (frame contains "Content-Disposition: attachment" or frame contains "Content-Type: application/")';
-                        case 'tcp-stream':
-                            return 'tcp.payload';
-                        default:
-                            return cb.value;
+            // 扫描器检测 - 新增功能
+            const scanners = Array.from(document.querySelectorAll('input[name="scanner"]:checked'))
+                .map(cb => cb.value);
+            
+            if (scanners.length > 0) {
+                const scannerFilters = [];
+                
+                scanners.forEach(scanner => {
+                    if (scanner === 'fscan') {
+                        const fscanMode = document.getElementById('fscanMode').value;
+                        const ipRange = document.getElementById('fscanIPRange').value.trim();
+                        const vuln = document.getElementById('fscanVuln').value;
+                        
+                        let fscanFilter = '';
+                        
+                        // 根据选择的模式构建过滤器
+                        if (fscanMode === 'all') {
+                            fscanFilter = `${scannerSignatures.fscan.host} or ${scannerSignatures.fscan.port} or ${scannerSignatures.fscan.exploit}`;
+                        } else {
+                            fscanFilter = scannerSignatures.fscan[fscanMode];
+                        }
+                        
+                        // 添加漏洞特定检测
+                        if (vuln !== 'all') {
+                            switch (vuln) {
+                                case 'ms17':
+                                    fscanFilter += ' or smb or (tcp.port == 445 and frame contains "\\xff\\x53\\x4d\\x42")';
+                                    break;
+                                case 'smbghost':
+                                    fscanFilter += ' or (tcp.port == 445 and frame contains "\\x00\\x00\\x00\\xc0\\xfe\\x52\\x00\\x00")';
+                                    break;
+                                case 'weblogic':
+                                    fscanFilter += ' or (tcp.port == 7001 and http)';
+                                    break;
+                                case 'redis':
+                                    fscanFilter += ' or tcp.port == 6379';
+                                    break;
+                            }
+                        }
+                        
+                        // 添加IP范围
+                        if (ipRange) {
+                            fscanFilter = `(ip.src == ${ipRange} or ip.dst == ${ipRange}) and (${fscanFilter})`;
+                        }
+                        
+                        scannerFilters.push(fscanFilter);
+                    } else if (scannerSignatures[scanner]) {
+                        scannerFilters.push(scannerSignatures[scanner]);
                     }
                 });
-
-            if (fileProtocols.length > 0) {
-                filters.push(`(${fileProtocols.join(' or ')})`);
+                
+                if (scannerFilters.length > 0) {
+                    filters.push(`(${scannerFilters.join(' or ')})`);
+                }
             }
-
-            // 自定义文件特征
-            const fileHeader = document.getElementById('fileHeader')?.value.trim();
-            const fileFooter = document.getElementById('fileFooter')?.value.trim();
-            const mimeType = document.getElementById('mimeType')?.value.trim();
-
-            if (fileHeader) {
-                filters.push(`frame contains ${fileHeader}`);
+            
+            // 扫描器特征
+            const scannerPayload = document.getElementById('scannerPayload')?.value.trim();
+            if (scannerPayload) {
+                filters.push(`frame contains "${scannerPayload}"`);
             }
-            if (fileFooter) {
-                filters.push(`frame contains ${fileFooter}`);
-            }
-            if (mimeType) {
-                filters.push(`http.content_type contains "${mimeType}"`);
-            }
-
-            // 自定义过滤器
-            const customFilter = document.getElementById('customFilter')?.value.trim();
-            if (customFilter) {
-                filters.push(`(${customFilter})`);
+            
+            const scannerBehavior = document.getElementById('scannerBehavior')?.value;
+            if (scannerBehavior) {
+                switch (scannerBehavior) {
+                    case 'high-rate':
+                        filters.push('frame.time_delta < 0.001');
+                        break;
+                    case 'multi-protocol':
+                        filters.push('(tcp.port in {21,22,23,25,80,443,445} or udp.port in {53,67,68,161})');
+                        break;
+                    case 'vuln-probe':
+                        filters.push('frame contains "\\x90\\x90\\x90\\x90" or http.request.uri contains "1=1"');
+                        break;
+                    case 'bruteforce':
+                        filters.push('(ssh or ftp) and frame contains "password"');
+                        break;
+                }
             }
 
             // 组合所有过滤器
@@ -1443,23 +1514,20 @@
                 case 'nmap-scan':
                     filter = '(tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size<=1024) or (tcp.flags==0x0) or (tcp.flags.fin==1 and tcp.flags.ack==0) or (tcp.flags.fin==1 and tcp.flags.urg==1 and tcp.flags.psh==1) or (tcp.flags.ack==1 and tcp.flags.syn==0)';
                     break;
-                case 'extract-archives':
-                    filter = '(frame contains "504B0304" or frame contains "526172211A0700" or frame contains "377ABCAF271C") and (http or ftp-data)';
+                case 'fscan-scan':
+                    filter = '(icmp or arp) and (ip.dst==192.168.1.0/24) or (tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.dstport in {135,139,445,22,21,1433,3306,3389})';
                     break;
-                case 'malware':
-                    filter = 'http and (frame contains "MZ" or frame contains "TVqQAA" or frame contains "504B0304")';
+                case 'hydra-bruteforce':
+                    filter = '((tcp.dstport == 22 and ssh) or (tcp.dstport == 21 and ftp)) and frame.len > 100 and (frame contains "login" or frame contains "password") and tcp.analysis.retransmission==0';
                     break;
-                case 'data-exfiltration':
-                    filter = 'tcp.len > 1000 and (frame contains "504B0304" or frame contains "526172211A0700" or frame contains "377ABCAF271C")';
+                case 'masscan-detection':
+                    filter = 'tcp.flags.syn==1 and tcp.flags.ack==0 and (ip.dst==192.168.1.0/24) and frame.time_delta < 0.001';
                     break;
-                case 'dns-tunneling':
-                    filter = 'dns and (dns.qry.name.len > 50 or dns.resp.len > 512 or dns.flags.rcode != 0)';
+                case 'metasploit-attack':
+                    filter = 'tcp.payload matches "\\x90\\x90\\x90\\x90" or tcp.payload matches "\\x68\\x65\\x6c\\x6c\\x6f" or http contains "meterpreter"';
                     break;
-                case 'web-shells':
-                    filter = 'http.request.method == "POST" and (http.request.uri contains ".php" or http.request.uri contains ".jsp" or http.request.uri contains ".asp" or frame contains "eval(" or frame contains "system(")';
-                    break;
-                case 'credential-theft':
-                    filter = 'http and (http contains "password" or http contains "login" or http contains "username" or http contains "credential")';
+                case 'sqlmap-injection':
+                    filter = 'http.request.uri contains "1=1" or http.request.uri contains "sleep(" or http.request.uri contains "union select" or http.request.uri contains "select%20*%20from"';
                     break;
             }
 
@@ -1564,11 +1632,12 @@
                 maxLength: document.getElementById('maxLength').value,
                 tcpFlags: Array.from(document.querySelectorAll('input[name="tcpflag"]:checked')).map(cb => cb.value),
                 keyword: document.getElementById('keyword-search').value,
-                fileTypes: Array.from(document.querySelectorAll('input[name="filetype"]:checked')).map(cb => cb.value),
-                fileProtocols: Array.from(document.querySelectorAll('input[name="fileprotocol"]:checked')).map(cb => cb.value),
-                fileHeader: document.getElementById('fileHeader').value,
-                fileFooter: document.getElementById('fileFooter').value,
-                mimeType: document.getElementById('mimeType').value,
+                scanners: Array.from(document.querySelectorAll('input[name="scanner"]:checked')).map(cb => cb.value),
+                fscanMode: document.getElementById('fscanMode').value,
+                fscanIPRange: document.getElementById('fscanIPRange').value,
+                fscanVuln: document.getElementById('fscanVuln').value,
+                scannerPayload: document.getElementById('scannerPayload').value,
+                scannerBehavior: document.getElementById('scannerBehavior').value,
                 customFilter: document.getElementById('customFilter').value,
                 nmapDetection: document.getElementById('nmapDetection').checked,
                 nmapScanType: document.getElementById('nmapScanType').value,
@@ -1634,10 +1703,8 @@
             'keyword-search': '搜索数据包中包含的特定字符串',
             'minLength': '过滤最小数据包长度（字节）',
             'maxLength': '过滤最大数据包长度（字节）',
-            'fileHeader': '输入文件头的十六进制特征码',
-            'fileFooter': '输入文件尾的十六进制特征码',
-            'mimeType': '输入MIME类型，如 application/zip',
-            'nmapIPRange': '输入IP范围，如192.168.1.0/24'
+            'fscanIPRange': '输入IP范围，如192.168.1.0/24',
+            'scannerPayload': '输入扫描器的Payload特征字符串'
         };
 
         // 为输入框添加提示
