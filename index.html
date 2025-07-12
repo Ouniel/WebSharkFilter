@@ -772,7 +772,7 @@
         .tips-sub-content {
             display: none;
             animation: fadeIn 0.4s ease-out;
-            max-height: 700px;
+            max-height: 80vh; /* 增加最大高度 */
             overflow-y: auto;
             padding-right: 15px;
         }
@@ -1274,7 +1274,6 @@
                         <button class="tips-sub-tab-button active" data-subtab="tips-capture"><i class="fas fa-bullseye"></i> 精准捕获</button>
                         <button class="tips-sub-tab-button" data-subtab="tips-filter"><i class="fas fa-filter"></i> 高效过滤</button>
                         <button class="tips-sub-tab-button" data-subtab="tips-parse"><i class="fas fa-search"></i> 深度解析</button>
-                        <button class="tips-sub-tab-button" data-subtab="tips-advanced"><i class="fas fa-chart-line"></i> 高级分析</button>
                         <button class="tips-sub-tab-button" data-subtab="tips-security"><i class="fas fa-shield-alt"></i> 安全分析</button>
                     </div>
 
@@ -1283,47 +1282,44 @@
                             <h3><i class="fas fa-bullseye"></i> 精准捕获：奠定分析基础</h3>
                             <div class="tips-grid">
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">1</div>
-                                        <div class="tip-title">BPF语法精要</div>
-                                    </div>
-                                    <div class="tip-desc">使用精确语法捕获特定主机的HTTPS流量，避免数据冗余</div>
-                                    <div class="tip-command">tcp port 443 and host 192.168.1.100
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">1</div><div class="tip-title">BPF语法精要</div></div>
+                                    <div class="tip-desc">精确捕获特定主机的HTTPS流量，避免数据冗余。</div>
+                                    <div class="tip-command">tcp port 443 and host 192.168.1.100<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">3</div>
-                                        <div class="tip-title">环形缓冲区实战</div>
-                                    </div>
-                                    <div class="tip-desc">设置环形缓存确保在长时间捕获中不遗漏关键故障点数据</div>
-                                    <div class="tip-command">设置500MB×10文件的环形缓存
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">2</div><div class="tip-title">双网卡绑定捕获</div></div>
+                                    <div class="tip-desc">通过Npcap驱动实现多网卡聚合捕获，解决链路聚合组（LAG）流量分散问题。</div>
+                                    <div class="tip-command">使用Npcap配置聚合捕获<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">5</div>
-                                        <div class="tip-title">预处理过滤</div>
-                                    </div>
-                                    <div class="tip-desc">排除ARP广播干扰，提升有效数据占比</div>
-                                    <div class="tip-command">not arp
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">3</div><div class="tip-title">环形缓冲区实战</div></div>
+                                    <div class="tip-desc">设置环形缓存确保在长时间捕获中不遗漏关键故障点数据。</div>
+                                    <div class="tip-command">设置500MB×10文件的环形缓存<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">7</div>
-                                        <div class="tip-title">MTU问题捕获</div>
-                                    </div>
-                                    <div class="tip-desc">捕获完整Jumbo Frame，诊断视频会议卡顿问题</div>
-                                    <div class="tip-command">设置 snaplen=2000
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">4</div><div class="tip-title">内存优化策略</div></div>
+                                    <div class="tip-desc">在32GB内存设备上将packet-buffer-size调整为128MB，显著降低丢包率。</div>
+                                    <div class="tip-command">调整packet-buffer-size为128MB<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">5</div><div class="tip-title">预处理过滤</div></div>
+                                    <div class="tip-desc">排除ARP广播干扰，提升有效数据占比。</div>
+                                    <div class="tip-command">not arp<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">6</div><div class="tip-title">时间同步关键</div></div>
+                                    <div class="tip-desc">配置NTP同步后，使用editcap修正时间戳误差。</div>
+                                    <div class="tip-command">editcap -t 0.0001 input.pcap output.pcap<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">7</div><div class="tip-title">MTU问题捕获</div></div>
+                                    <div class="tip-desc">捕获完整Jumbo Frame，诊断视频会议卡顿问题。</div>
+                                    <div class="tip-command">设置 snaplen=2000<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">8</div><div class="tip-title">VLAN标签解析</div></div>
+                                    <div class="tip-desc">在802.1Q协议首选项中启用“Reassemble VLAN tagged fragments”，解决跨VLAN会话跟踪中断。</div>
+                                    <div class="tip-command">启用Reassemble VLAN tagged fragments<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -1334,47 +1330,44 @@
                             <h3><i class="fas fa-filter"></i> 高效过滤：聚焦关键信息</h3>
                             <div class="tips-grid">
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">9</div>
-                                        <div class="tip-title">复合表达式进阶</div>
-                                    </div>
-                                    <div class="tip-desc">精确定位登录请求来源</div>
-                                    <div class="tip-command">(http contains "login") && (ip.src == 10.1.1.23)
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">9</div><div class="tip-title">复合表达式进阶</div></div>
+                                    <div class="tip-desc">精确定位登录请求来源。</div>
+                                    <div class="tip-command">(http contains "login") && (ip.src == 10.1.1.23)<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">11</div>
-                                        <div class="tip-title">会话流智能追踪</div>
-                                    </div>
-                                    <div class="tip-desc">分析单向延迟问题</div>
-                                    <div class="tip-command">右键TCP流 → Follow → 选择特定方向（C to S）
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">10</div><div class="tip-title">位级过滤技巧</div></div>
+                                    <div class="tip-desc">筛选所有URG标志置位的异常报文。</div>
+                                    <div class="tip-command">tcp[13] & 32 == 32<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">13</div>
-                                        <div class="tip-title">动态值过滤</div>
-                                    </div>
-                                    <div class="tip-desc">显示RTT超过500ms的高延迟确认包</div>
-                                    <div class="tip-command">tcp.analysis.ack_rtt > 0.5
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">11</div><div class="tip-title">会话流智能追踪</div></div>
+                                    <div class="tip-desc">分析单向延迟问题。</div>
+                                    <div class="tip-command">右键TCP流 → Follow → 选择特定方向（C to S）<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">15</div>
-                                        <div class="tip-title">有效载荷排除法</div>
-                                    </div>
-                                    <div class="tip-desc">过滤含空数据的TCP段</div>
-                                    <div class="tip-command">tcp.payload and !tcp.payload contains 00:00:00
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">12</div><div class="tip-title">负载特征过滤</div></div>
+                                    <div class="tip-desc">快速识别压缩文档传输（ZIP文件头）。</div>
+                                    <div class="tip-command">udp contains 50:4b:03:04<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">13</div><div class="tip-title">动态值过滤</div></div>
+                                    <div class="tip-desc">显示RTT超过500ms的高延迟确认包。</div>
+                                    <div class="tip-command">tcp.analysis.ack_rtt > 0.5<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">14</div><div class="tip-title">协议分层过滤</div></div>
+                                    <div class="tip-desc">定位HTTP/2流的HEADERS帧。</div>
+                                    <div class="tip-command">http2.streamid == 5 && http2.type == 0<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">15</div><div class="tip-title">有效载荷排除法</div></div>
+                                    <div class="tip-desc">过滤含空数据的TCP段。</div>
+                                    <div class="tip-command">tcp.payload and !tcp.payload contains 00:00:00<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">16</div><div class="tip-title">正则表达式应用</div></div>
+                                    <div class="tip-desc">匹配RESTful API多版本路径。</div>
+                                    <div class="tip-command">http.request.uri matches "/api/v[1-3]/user"<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -1385,98 +1378,49 @@
                             <h3><i class="fas fa-search"></i> 深度解析：洞察协议细节</h3>
                             <div class="tips-grid">
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">17</div>
-                                        <div class="tip-title">TCP问题诊断组合</div>
-                                    </div>
-                                    <div class="tip-desc">聚焦异常标记包</div>
-                                    <div class="tip-command">tcp.analysis.flags && !tcp.analysis.window_update
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">17</div><div class="tip-title">TCP问题诊断组合</div></div>
+                                    <div class="tip-desc">聚焦异常标记包。</div>
+                                    <div class="tip-command">tcp.analysis.flags && !tcp.analysis.window_update<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">19</div>
-                                        <div class="tip-title">TLS密钥日志配置</div>
-                                    </div>
-                                    <div class="tip-desc">完整解密HTTPS业务流</div>
-                                    <div class="tip-command">设置SSLKEYLOGFILE环境变量
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">18</div><div class="tip-title">HTTP性能指标</div></div>
+                                    <div class="tip-desc">列出响应时间超1秒的慢请求。</div>
+                                    <div class="tip-command">http.time > 1<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">21</div>
-                                        <div class="tip-title">DNS问题定位</div>
-                                    </div>
-                                    <div class="tip-desc">捕获所有错误响应</div>
-                                    <div class="tip-command">dns.flags.response == 1 and dns.flags.rcode != 0
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">19</div><div class="tip-title">TLS密钥日志配置</div></div>
+                                    <div class="tip-desc">完整解密HTTPS业务流。</div>
+                                    <div class="tip-command">设置SSLKEYLOGFILE环境变量<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">23</div>
-                                        <div class="tip-title">ICMP类型解析</div>
-                                    </div>
-                                    <div class="tip-desc">精确定位"Host Unreachable"错误</div>
-                                    <div class="tip-command">icmp.type==3 && icmp.code==1
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">20</div><div class="tip-title">VoIP呼叫分析</div></div>
+                                    <div class="tip-desc">一键重组SIP/RTP会话流。</div>
+                                    <div class="tip-command">Telephony → VoIP Calls<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tips-sub-content" id="tips-advanced">
-                        <div class="tips-section">
-                            <h3><i class="fas fa-chart-line"></i> 高级分析：突破复杂场景</h3>
-                            <div class="tips-grid">
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">26</div>
-                                        <div class="tip-title">IO Graph多维分析</div>
-                                    </div>
-                                    <div class="tip-desc">叠加多条曲线显示关键网络指标</div>
-                                    <div class="tip-command">叠加5条曲线分别显示TCP重传、零窗告警、吞吐量波动
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">21</div><div class="tip-title">DNS问题定位</div></div>
+                                    <div class="tip-desc">捕获所有错误响应。</div>
+                                    <div class="tip-command">dns.flags.response == 1 and dns.flags.rcode != 0<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">28</div>
-                                        <div class="tip-title">流图拓扑重建</div>
-                                    </div>
-                                    <div class="tip-desc">可视化TCP握手异常</div>
-                                    <div class="tip-command">Statistics → Flow Graph
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">22</div><div class="tip-title">DHCP全流程跟踪</div></div>
+                                    <div class="tip-desc">过滤四种核心报文类型。</div>
+                                    <div class="tip-command">bootp.option.type == 53<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">30</div>
-                                        <div class="tip-title">时区智能校正</div>
-                                    </div>
-                                    <div class="tip-desc">自动转换UTC时间戳</div>
-                                    <div class="tip-command">View → Time Zone Adjustment
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">23</div><div class="tip-title">ICMP类型解析</div></div>
+                                    <div class="tip-desc">精确定位“Host Unreachable”错误。</div>
+                                    <div class="tip-command">icmp.type==3 && icmp.code==1<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">32</div>
-                                        <div class="tip-title">跨文件搜索</div>
-                                    </div>
-                                    <div class="tip-desc">批量扫描多个捕获文件</div>
-                                    <div class="tip-command">tshark -r trace*.pcap -Y "http.request.method==POST"
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">24</div><div class="tip-title">HTTP2流优先级</div></div>
+                                    <div class="tip-desc">在http2.headers中解析PRIORITY帧的依赖树结构。</div>
+                                    <div class="tip-command">分析 http2.headers<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">25</div><div class="tip-title">文件提取技术</div></div>
+                                    <div class="tip-desc">批量恢复传输的文档与图像。</div>
+                                    <div class="tip-command">文件 → 导出对象 → HTTP<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -1486,48 +1430,55 @@
                         <div class="tips-section">
                             <h3><i class="fas fa-shield-alt"></i> 安全分析：威胁狩猎实战</h3>
                             <div class="tips-grid">
-                                <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">41</div>
-                                        <div class="tip-title">扫描行为识别</div>
-                                    </div>
-                                    <div class="tip-desc">检测隐蔽扫描活动</div>
-                                    <div class="tip-command">tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size<1024
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                               <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">41</div><div class="tip-title">扫描行为识别</div></div>
+                                    <div class="tip-desc">检测隐蔽扫描活动。</div>
+                                    <div class="tip-command">tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size<1024<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">43</div>
-                                        <div class="tip-title">DNS隧道检测</div>
-                                    </div>
-                                    <div class="tip-desc">识别异常长域名</div>
-                                    <div class="tip-command">dns.qry.name.len > 50 && dns.count.answers>5
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">42</div><div class="tip-title">凭证明文捕获</div></div>
+                                    <div class="tip-desc">捕获POST请求中的密码字段。</div>
+                                    <div class="tip-command">http.request.method==POST && http contains "password"<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">45</div>
-                                        <div class="tip-title">协议异常检测</div>
-                                    </div>
-                                    <div class="tip-desc">发现80端口的非HTTP流量</div>
-                                    <div class="tip-command">tcp.port==80 && !http
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">43</div><div class="tip-title">DNS隧道检测</div></div>
+                                    <div class="tip-desc">识别异常长域名。</div>
+                                    <div class="tip-command">dns.qry.name.len > 50 && dns.count.answers>5<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
-                                
                                 <div class="tip-card">
-                                    <div class="tip-header">
-                                        <div class="tip-number">47</div>
-                                        <div class="tip-title">SSL/TLS风险</div>
-                                    </div>
-                                    <div class="tip-desc">标记弱加密套件(RC4)</div>
-                                    <div class="tip-command">ssl.handshake.ciphersuite == 0x0004
-                                        <i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i>
-                                    </div>
+                                    <div class="tip-header"><div class="tip-number">44</div><div class="tip-title">恶意载荷定位</div></div>
+                                    <div class="tip-desc">检测传输中的PNG木马（PNG文件头）。</div>
+                                    <div class="tip-command">tcp.payload contains 89:50:4e:47<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">45</div><div class="tip-title">协议异常检测</div></div>
+                                    <div class="tip-desc">发现80端口的非HTTP流量。</div>
+                                    <div class="tip-command">tcp.port==80 && !http<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">46</div><div class="tip-title">ARP欺骗告警</div></div>
+                                    <div class="tip-desc">捕获异常ARP响应。</div>
+                                    <div class="tip-command">arp.dst.hw_mac != arp.src.hw_mac<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">47</div><div class="tip-title">SSL/TLS风险</div></div>
+                                    <div class="tip-desc">标记弱加密套件(RC4)。</div>
+                                    <div class="tip-command">ssl.handshake.ciphersuite == 0x0004<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">48</div><div class="tip-title">数据外传分析</div></div>
+                                    <div class="tip-desc">监控大流量外传。</div>
+                                    <div class="tip-command">ip.src==内部网段 && ip.dst!=公司网段 && frame.len>1000<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">49</div><div class="tip-title">SMB漏洞检测</div></div>
+                                    <div class="tip-desc">配合EternalBlue漏洞特征码扫描。</div>
+                                    <div class="tip-command">smb or smb2<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-header"><div class="tip-number">50</div><div class="tip-title">威胁情报集成</div></div>
+                                    <div class="tip-desc">通过Zeek/Suricata生成JSON日志，在Wireshark中叠加告警标记。</div>
+                                    <div class="tip-command">使用Zeek/Suricata集成<i class="fas fa-copy copy-icon" onclick="copyCommand(this)"></i></div>
                                 </div>
                             </div>
                         </div>
